@@ -1,20 +1,25 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <h1>{{ title }}</h1>
+    <TitleLabel :title.sync="title" />
+    <TodoList />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "./components/HelloWorld.vue";
+import TodoList from "@/components/TodoList";
+import TitleLabel from "@/components/TitleLabel";
 
 @Component({
   components: {
-    HelloWorld,
+    TodoList,
+    TitleLabel,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  private title = "";
+}
 </script>
 
 <style lang="scss">
