@@ -1,17 +1,20 @@
 <li>
-  {{ index + 1 }}
-  <input type="checkbox" v-model="item.completed" />
-  <span @click="isEdit = !isEdit"
+  {{ index + 1 }}.
+  <input type="checkbox" v-model="item.isCompleted" />
+  <span @click="setEdit()"
         v-if="!isEdit"
-        :class="{'todolist-completed': item.completed}">
+        :class="{'todolist-completed': item.isCompleted}">
     {{ item.task }} - {{ createdAt }}
   </span>
   <span v-else>
     <input type="text"
-           v-model="itemSync.task"
-           @keyup.enter="isEdit = !isEdit" />
+           v-model="task"
+           ref="inputEdit"
+           @keyup.enter="updateTask('task')"
+           @blur="isEdit=false"
+    />
   </span>
-  <a href="#" @click="$emit('remove', index)">
+  <a href="#" @click="$emit('remove', item.id)">
     삭제
   </a>
 </li>

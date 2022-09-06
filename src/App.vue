@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <h1>{{ title }}</h1>
-    <TitleLabel :title.sync="title" />
+    <!--    <h1>{{ title }}</h1>-->
+    <!--    <TitleLabel :title.sync="title" />-->
     <TodoList />
   </div>
 </template>

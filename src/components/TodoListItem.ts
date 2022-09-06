@@ -1,6 +1,6 @@
-import { Vue, Component, Prop, PropSync } from "vue-property-decorator";
+import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import { ITodo } from "@/components/TodoList";
 import WithRender from "./TodoListItem.html";
-import { ITodoItem } from "@/components/TodoList";
 import "./TodoListItem.css";
 
 @WithRender
@@ -11,15 +11,37 @@ import "./TodoListItem.css";
 })
 export default class TodoListItem extends Vue {
   @Prop(Object)
-  private item!: ITodoItem;
-
-  @PropSync("item", Object)
-  private itemSync!: ITodoItem;
-
+  private item!: ITodo;
   private isEdit = false;
+  private task = "";
+  private createdAt = "";
 
-  get createdAt() {
-    const date = new Date(1000 * this.item.createdAt);
-    return date.toLocaleTimeString();
+  private created() {
+    setInterval(this.updateCreatedAt, 1000);
+    this.updateCreatedAt();
+  }
+
+  private setEdit() {
+    this.task = this.item.task;
+    this.isEdit = true;
+    this.$nextTick(() => {
+      (this.$refs.inputEdit as HTMLInputElement).select();
+    });
+  }
+
+  private updateTask() {
+    this.$emit("update", this.item.id, { task: this.task });
+  }
+
+  // get createdAt() {
+  //   return this.$moment(this.item.createdAt).fromNow();
+  // }
+  private updateCreatedAt() {
+    this.createdAt = this.$moment(this.item.createdAt).fromNow();
+  }
+
+  @Watch("item.isCompleted")
+  private onChangeIsCompleted(newVal: boolean) {
+    this.$emit("update", this.item.id, { isCompleted: newVal });
   }
 }
