@@ -1,6 +1,29 @@
 <div>
-  <input type="text" v-model="task" placeholder="할 일을 입력해주세요" @keyup.enter="addItem()">
-  <ul>
+  <v-container>
+    <v-text-field solo v-model="task" label="할 일" @keyup.enter="addItem()" />
+    <h2 class="display-1 pl-3 success--text">
+      할 일 :&nbsp;
+      <v-fade-transition leave-absolute>
+        <span :key="`tasks-${todoItemList.length}`">
+          {{ todoItemList.length }}
+        </span>
+      </v-fade-transition>
+    </h2>
+    <v-divider class="mt-3" />
+    <v-layout my-1 align-center>
+      <strong class="mx-3 info--text text--darken-3">
+        Remaining : {{ countRemaining }}
+      </strong>
+      <v-divider vertical />
+      <strong class="mx-3 black--text">
+        Completed : {{ countCompleted }}
+      </strong>
+      <v-spacer />
+      <v-progress-circular class="mr-3" :value="progress" />
+    </v-layout>
+  </v-container>
+  <v-divider class="mb-3" />
+  <v-list flat subheader two-line>
     <TodoListItem v-for="(item, index) in todoItemList" :item="item" :index="index" @remove="removeItem" @update="updateItem" />
-  </ul>
+  </v-list>
 </div>

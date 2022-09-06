@@ -1,20 +1,35 @@
-<li>
-  {{ index + 1 }}.
-  <input type="checkbox" v-model="item.isCompleted" />
-  <span @click="setEdit()"
-        v-if="!isEdit"
-        :class="{'todolist-completed': item.isCompleted}">
-    {{ item.task }} - {{ createdAt }}
-  </span>
-  <span v-else>
-    <input type="text"
-           v-model="task"
-           ref="inputEdit"
-           @keyup.enter="updateTask('task')"
-           @blur="isEdit=false"
-    />
-  </span>
-  <a href="#" @click="$emit('remove', item.id)">
-    삭제
-  </a>
-</li>
+<v-list-item-group multiple>
+  <v-list-item>
+    <template>
+      <v-list-item-action>
+        <v-checkbox color="primary" v-model="item.isCompleted" />
+      </v-list-item-action>
+      <v-list-item-content v-if="!isEdit" @click="setEdit()">
+        <v-list-item-title :class="{'todolist-completed': item.isCompleted}" >
+          {{ item.task }}
+        </v-list-item-title>
+        <v-list-item-subtitle>
+          {{ createdAt }}
+        </v-list-item-subtitle>
+      </v-list-item-content>
+      <v-list-item-content v-else>
+        <v-text-field label="할 일 수정"
+                      v-model="task"
+                      ref="inputEdit"
+                      @keyup.enter="updateTask()"
+                      @blur="isEdit = false"
+                      @focus="$event.target.select()"
+        />
+      </v-list-item-content>
+      <v-list-item-action>
+        <v-btn icon>
+          <v-icon @click="$emit('remove', item.id)"
+                  color="red lighten-1"
+          >
+            mdi-delete
+          </v-icon>
+        </v-btn>
+      </v-list-item-action>
+    </template>
+  </v-list-item>
+</v-list-item-group>

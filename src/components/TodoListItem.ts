@@ -25,7 +25,7 @@ export default class TodoListItem extends Vue {
     this.task = this.item.task;
     this.isEdit = true;
     this.$nextTick(() => {
-      (this.$refs.inputEdit as HTMLInputElement).select();
+      (this.$refs.inputEdit as HTMLInputElement).focus();
     });
   }
 

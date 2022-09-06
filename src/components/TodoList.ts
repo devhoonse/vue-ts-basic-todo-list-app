@@ -92,6 +92,18 @@ export default class TodoList extends Vue {
     return this.$_.sortBy(this.todoItems, ["createdAt"], ["desc"]);
   }
 
+  get countCompleted(): number {
+    return this.$_.filter(this.todoItems, (item) => item.isCompleted).length;
+  }
+
+  get countRemaining(): number {
+    return this.$_.filter(this.todoItems, (item) => !item.isCompleted).length;
+  }
+
+  get progress(): number {
+    return (100 * this.countCompleted) / this.todoItems.length;
+  }
+
   @Watch("todoItems", { deep: true })
   private onChangeTodoList() {
     localStorage.setItem("TodoList", JSON.stringify(this.todoItems));
